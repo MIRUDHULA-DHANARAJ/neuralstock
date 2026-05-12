@@ -1,1 +1,1 @@
-streamlitpandasnumpyscikit-learntensorflowplotlymatplotlibjoblib
+streamlitpandasnumpyscikit-learnmatplotlibtorchpickle-mixin

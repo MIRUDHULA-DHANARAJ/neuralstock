@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.env
+data/raw/
+data/processed/
+mlruns/
+models/*.pt
+models/*.pkl
+venv/
+.venv/
+.vscode/
+.idea/

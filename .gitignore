@@ -1,0 +1,13 @@
+# Force overwrite a clean, optimal .gitignore file
+cat << 'EOF' > .gitignore
+venv/
+.venv/
+__pycache__/
+.env
+data/
+runs/
+.ipynb_checkpoints/
+*.pt
+EOF
+
+notebooks/

@@ -77,7 +77,7 @@ model, feature_cols, scalers, df_feat = load_production_assets()
 
 # ====================== INTERACTIVE SIDEBAR CONTROL PANELS ======================
 st.sidebar.markdown("### 🖥️ Core Control Unit")
-st.sidebar.markdown("Configure targeted prediction metrics matching project specifications.")
+
 
 if df_feat is not None:
     # 1. CATEGORY SELECTOR 

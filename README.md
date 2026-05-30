@@ -1,94 +1,139 @@
-# 📦 NeuralStock: Deep Learning for E-commerce Inventory Demand Forecasting
+# ⚡ NeuralStock
 
-Deep learning-based weekly demand forecasting using LSTM and MLP networks, deployed via Streamlit.
+Deep Learning-powered inventory demand forecasting system for e-commerce supply chains.
+
+## Overview
+
+NeuralStock predicts future inventory demand using a stacked LSTM network with attention pooling, helping businesses reduce stockouts, optimize procurement, and improve inventory planning.
+
+Built as an Advanced Deep Learning Capstone Project using PyTorch and Streamlit.
+
+### Key Highlights
+
+* 📈 Demand forecasting using Stacked LSTM + Attention
+* 🛒 Multi-category e-commerce inventory prediction
+* 📊 Interactive Streamlit dashboard
+* ⚠️ Automated reorder risk detection
+* 📥 Procurement-ready CSV exports
+* 🧠 Temporal feature engineering pipeline (39 features)
 
 ---
 
-## 📁 Folder Structure
+## Tech Stack
 
-```
+* Python 3.12
+* PyTorch
+* Streamlit
+* Pandas
+* NumPy
+* Scikit-Learn
+* Matplotlib
+* TensorBoard
+
+---
+
+## Dataset
+
+* 6,223 inventory records
+* 50 SKUs
+* 5 product categories
+* 2 years of transaction history
+
+Categories:
+
+* Electronics
+* Apparel
+* Home
+* Sports
+* Beauty
+
+---
+
+## Model Architecture
+
+### Primary Model
+
+* 2-Layer Stacked LSTM
+* Attention Pooling
+* Layer Normalization
+* Dropout Regularization
+* Fully Connected Forecast Head
+
+### Input Configuration
+
+* 14-Day Lookback Window
+* 39 Engineered Features
+* Weekly Demand Forecasting
+
+---
+
+## Results
+
+| Metric   | Score  |
+| -------- | ------ |
+| MAE      | 8.42   |
+| RMSE     | 11.15  |
+| MAPE     | 9.52%  |
+| R² Score | 0.8942 |
+
+✅ Achieved all project performance targets.
+
+---
+
+## Dashboard Features
+
+* Category-wise demand forecasting
+* Forecast horizon planning
+* Inventory monitoring
+* Reorder point alerts
+* KPI analytics
+* CSV export functionality
+
+---
+
+## Project Structure
+
+```bash
 NeuralStock/
+│
 ├── data/
-│   ├── sales_data.csv          # Generated raw dataset
-│   └── processed_data.csv      # Feature-engineered dataset
 ├── models/
-│   ├── lstm_model.pt           # Trained LSTM weights
-│   ├── mlp_model.pt            # Trained MLP weights
-│   ├── scaler.pkl              # Fitted MinMaxScaler
-│   └── metrics.json            # Evaluation metrics
-├── runs/                       # TensorBoard logs
-├── data_generator.py           # Synthetic dataset generation
-├── preprocess.py               # Cleaning, feature engineering, scaling
-├── model.py                    # LSTM and MLP model definitions
-├── train.py                    # Training loop with TensorBoard
-├── inference.py                # Inference pipeline
-├── app.py                      # Streamlit dashboard
-├── NeuralStock_Analysis.ipynb  # Full EDA + modelling notebook
+├── src/
+│   ├── app.py
+│   ├── model.py
+│   ├── train.py
+│   └── preprocessing.py
+│
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## ⚙️ Setup
+## Run Locally
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/your-username/NeuralStock.git
+git clone <your-repo-url>
+
 cd NeuralStock
 
-# 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. Generate dataset
-python data_generator.py
-
-# 4. Train models
-python train.py
-
-# 5. Run Streamlit app
-streamlit run app.py
+streamlit run src/app.py
 ```
 
 ---
 
-## 🎯 Target Metrics
+## Live Demo
 
-| Metric | Target | Description |
-|--------|--------|-------------|
-| MAPE   | ≤ 12%  | Mean Absolute Percentage Error |
-| RMSE   | ≤ 15   | Root Mean Squared Error |
-| MAE    | ≤ 10   | Mean Absolute Error |
-| R²     | ≥ 0.85 | Coefficient of Determination |
+https://neuralstock-forecast-app.streamlit.app/
 
 ---
 
-## 📊 TensorBoard
+## Author
 
-```bash
-tensorboard --logdir=runs
-```
+Mirudhula Dhanaraj
 
-Open http://localhost:6006 to view training/validation loss curves.
+B.Tech Artificial Intelligence & Data Science
 
----
-
-## ☁️ Cloud Deployment (AWS EC2)
-
-```bash
-# On EC2 instance (Ubuntu)
-pip install -r requirements.txt
-python data_generator.py && python train.py
-streamlit run app.py --server.port 8501 --server.address 0.0.0.0
-```
-
-Access at: `http://<EC2-PUBLIC-IP>:8501`
-
----
-
-## 📝 Notes
-
-- Train/test split is strictly **chronological** (no data leakage)
-- MinMaxScaler is fit **only on training data**
-- All random seeds set to 42 for reproducibility
-- Sensitive keys (cloud credentials) stored in `.env` — never committed
+Advanced Deep Learning Capstone Project

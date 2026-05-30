@@ -113,7 +113,7 @@ NeuralStock/
 ## Run Locally
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/MirudhulaD/NeuralStock.git
 
 cd NeuralStock
 

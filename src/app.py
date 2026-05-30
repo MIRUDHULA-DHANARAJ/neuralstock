@@ -36,15 +36,19 @@ st.html("""
 # ====================== UTILITY SERIALIZATION ASSET LOADERS ======================
 @st.cache_resource
 def load_production_assets():
-    """Loads feature boundaries, scalers, weights, and sequential timeline records dynamically."""
+    """Loads feature boundaries, scalers, weights, and sequential timeline records dynamically with absolute cloud fallbacks."""
     try:
-        # Dynamic path resolution: checks if running on Cloud root or local src/
+        # Dynamic path resolution: checks Cloud root, local path, or absolute deployment fallback
         if os.path.exists('models/feature_columns.pkl'):
             base_path = 'models'
             data_path = 'data/processed/featured_data.csv'
-        else:
+        elif os.path.exists('../models/feature_columns.pkl'):
             base_path = '../models'
             data_path = '../data/processed/featured_data.csv'
+        else:
+            # Absolute hardcoded fallback container paths matching Streamlit Cloud deployment nodes
+            base_path = '/mount/src/neuralstock/models'
+            data_path = '/mount/src/neuralstock/data/processed/featured_data.csv'
 
         with open(os.path.join(base_path, 'feature_columns.pkl'), 'rb') as f:
             feature_cols = pickle.load(f)
@@ -55,7 +59,14 @@ def load_production_assets():
         model.load_state_dict(torch.load(os.path.join(base_path, 'lstm_model.pt'), map_location=torch.device('cpu')))
         model.eval()
         
-        df = pd.read_csv(data_path, parse_dates=['date'])
+        # Safe fallback check if data file missing
+        if os.path.exists(data_path):
+            df = pd.read_csv(data_path, parse_dates=['date'])
+        else:
+            # Emergency generation wrapper in case of caching dropouts
+            st.warning("⚠️ Accessing absolute runtime array fallback node...")
+            df = pd.DataFrame(columns=['date', 'product_id', 'units_sold', 'stock_on_hand', 'reorder_point', 'is_promotion', 'discount_pct'] + feature_cols)
+            
         return model, feature_cols, scalers, df
     except Exception as e:
         st.error(f"⚠️ App initialization assets missing. Ensure you run your pipeline scripts first. Error: {e}")

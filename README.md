@@ -136,4 +136,3 @@ Mirudhula Dhanaraj
 
 B.Tech Artificial Intelligence & Data Science
 
-Advanced Deep Learning Capstone Project

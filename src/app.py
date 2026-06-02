@@ -201,29 +201,59 @@ with tab_workspace:
     st.markdown("<br>", unsafe_allow_html=True)
     
     col_plot, col_ledger = st.columns([3, 2], gap="large")
-    
     with col_plot:
-        st.markdown("##### 📈 Forecast Chart")
+        st.markdown("##### 📈 Weekly Projected Demand vs. Available Inventory")
         if not forecast_df.empty:
-            fig, ax = plt.subplots(figsize=(10, 4.2), facecolor='#FFFFFF')
+            fig, ax = plt.subplots(figsize=(10, 4.5), facecolor='#FFFFFF')
             ax.set_facecolor('#F8FAFC')
             
-            ax.plot(forecast_df['Delivery Horizon Target'], forecast_df['Category Projected Sales (Units)'], 
-                    marker='o', color='#0284C7', linewidth=3, markersize=8, label="LSTM Forecast Track")
-            ax.fill_between(forecast_df['Delivery Horizon Target'], np.array(future_predictions) * 0.9, 
-                            np.array(future_predictions) * 1.1, color='#0284C7', alpha=0.1, label="Confidence Bounds")
+            # 1. Plot the AI's Forecast Track as a clean Bar Chart
+            # We use an alpha gradient fill to make it blend with your enterprise theme
+            bars = ax.bar(forecast_df['Delivery Horizon Target'], forecast_df['Category Projected Sales (Units)'], 
+                          color='#0284C7', alpha=0.85, width=0.4, edgecolor='#0369A1', linewidth=1,
+                          label="LSTM Weekly Required Volume")
             
-            ax.set_title(f"Predictive Demand Horizon - {selected_category}", fontsize=11, fontweight='bold', color='#1E293B')
-            ax.set_ylabel("Required Order Volume", fontsize=9, fontweight='semibold', color='#475569')
+            # 2. Add structural value metrics on top of each bar for immediate scanning
+            for bar in bars:
+                height = bar.get_height()
+                ax.annotate(f'{int(height)}',
+                            xy=(bar.get_x() + bar.get_width() / 2, height),
+                            xytext=(0, 3),  # 3 points vertical offset
+                            textcoords="offset points",
+                            ha='center', va='bottom', fontsize=8, fontweight='bold', color='#334155')
+            
+            # 3. Current Warehouse Stock Reference Line (Green Dashboard Accent)
+            ax.axhline(y=current_stock, color='#10B981', linestyle='--', linewidth=2.5, 
+                       label=f"Current Available Stock ({current_stock} Units)")
+            
+            # 4. Reorder Point Threshold Line (Red Alert Accent)
+            ax.axhline(y=reorder_point, color='#E11D48', linestyle=':', linewidth=2, 
+                       label=f"Danger ROP Floor ({reorder_point} Units)")
+            
+            # Aesthetics, Grids, and Label Formatting
+            ax.set_title(f"Procurement Balance Matrix - {selected_category}", fontsize=11, fontweight='bold', color='#1E293B')
+            ax.set_ylabel("Volume Capacity (Units)", fontsize=9, fontweight='semibold', color='#475569')
             ax.tick_params(colors='#64748B', labelsize=9)
-            plt.xticks(rotation=45)
-            ax.grid(True, linestyle=':', color='#E2E8F0', alpha=0.7)
-            ax.legend()
             
+            # Fix x-axis layout rotation for clear date viewing
+            plt.xticks(rotation=25, ha='right')
+            ax.grid(True, linestyle=':', color='#E2E8F0', alpha=0.7)
+            
+            # Dynamically push the chart's upper ceiling limit up by 25% so annotations don't cut off
+            max_y = max(max(future_predictions) if future_predictions else 100, current_stock, reorder_point)
+            ax.set_ylim(0, max_y * 1.25)
+            
+            # Clean positioning for the legend box
+            ax.legend(loc='upper right', frameon=True, facecolor='#FFFFFF', edgecolor='#E2E8F0')
+            
+            # Remove harsh black borders to match clean dashboard UI
             for spine in ['top', 'right', 'left', 'bottom']:
                 ax.spines[spine].set_color('#E2E8F0')
                 
+            plt.tight_layout()
             st.pyplot(fig)
+    
+    
         
     with col_ledger:
         st.markdown("##### 📥 CSV Download Button Ledger")

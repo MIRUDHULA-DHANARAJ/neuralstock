@@ -46,7 +46,6 @@ def load_production_assets():
             base_path = '../models'
             data_path = '../data/processed/featured_data.csv'
         else:
-            # Absolute hardcoded fallback container paths matching Streamlit Cloud deployment nodes
             base_path = '/mount/src/neuralstock/models'
             data_path = '/mount/src/neuralstock/data/processed/featured_data.csv'
 
@@ -257,22 +256,68 @@ with tab_logistics:
 
 # ----------------- TAB 3: MLOPS PERFORMANCE CENTER -----------------
 with tab_mlops:
-    st.markdown("### 🏆 Production Performance Framework Validation Metrics")
+    st.markdown("### 🏆 Model Performance Evaluation Dashboard")
+
     sm1, sm2, sm3, sm4 = st.columns(4)
+
     with sm1:
-        st.metric(label="🎯 Model R² Tracker (Target ≥ 0.85)", value="0.8942", delta="Pass")
+        st.metric(
+            label="🎯 LSTM R² Score",
+            value="0.8661",
+            delta="Best Model"
+        )
+
     with sm2:
-        st.metric(label="📊 Evaluation MAPE (Target ≤ 12%)", value="9.52%", delta="Pass", delta_color="inverse")
+        st.metric(
+            label="📊 LSTM MAPE",
+            value="19.48%"
+        )
+
     with sm3:
-        st.metric(label="📉 Operational MAE Target", value="8.42", delta="Pass", delta_color="inverse")
+        st.metric(
+            label="📉 LSTM MAE",
+            value="10.55"
+        )
+
     with sm4:
-        st.metric(label="📉 System Variance RMSE", value="11.15", delta="Pass", delta_color="inverse")
-    
-    st.markdown("##### 📊 Historical Baseline Benchmarking Ledger", unsafe_allow_html=True)
-    bench_data = pd.DataFrame({
-        "Evaluation Criterion": ["Mean Absolute Error (MAE)", "Root Mean Squared Variance", "Mean Absolute Percentage (MAPE)"],
-        "LSTM Model Network": ["8.42", "11.15", "9.52%"],
-        "MLP Baseline Node": ["12.85", "16.42", "14.15%"],
-        "Naive System Tracking": ["36.28", "49.71", "70.65%"]
+        st.metric(
+            label="📉 LSTM RMSE",
+            value="14.87"
+        )
+
+    st.markdown("---")
+
+    st.markdown("#### 📊 Model Comparison Scorecard")
+
+    scorecard = pd.DataFrame({
+        "Metric": ["MAE", "RMSE", "MAPE (%)", "R² Score"],
+        "LSTM Model": [
+            "10.55",
+            "14.87",
+            "19.48%",
+            "0.8661"
+        ],
+        "MLP Model": [
+            "11.93",
+            "17.25",
+            "21.79%",
+            "0.8200"
+        ]
     })
-    st.dataframe(bench_data, use_container_width=True, hide_index=True)
+
+    st.dataframe(
+        scorecard,
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.markdown("#### 📝 Model Selection Summary")
+
+    st.success(
+        """
+        LSTM was selected as the final production model because it achieved
+        the lowest forecasting error (MAE and RMSE) and the highest R² score.
+        Its ability to learn temporal patterns from historical inventory data
+        made it more suitable than the baseline MLP model.
+        """
+    )

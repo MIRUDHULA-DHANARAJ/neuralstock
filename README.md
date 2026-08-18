@@ -2,6 +2,9 @@
 
 NeuralStock is an end-to-end deep learning system designed to forecast inventory demand for e-commerce businesses. The project leverages a stacked LSTM network with attention pooling to predict future product demand, helping organizations reduce stockouts, minimize excess inventory, and improve procurement planning.
 
+## Live Deployment: 
+ Link: https://neuralstock-forecast-app.streamlit.app/
+
 ## 📌 Problem Statement
 
 E-commerce businesses often struggle with inventory imbalances:

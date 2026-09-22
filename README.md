@@ -84,11 +84,6 @@ A total of **39 engineered features** were created, including:
 * Rolling Mean (3, 7, 14, 21, 30)
 * Rolling Standard Deviation (3, 7, 14, 21, 30)
 
-### Exponential Weighted Features
-
-* EWM 7
-* EWM 14
-
 ### Cyclical Time Features
 
 * Day of Week (sin/cos)
@@ -129,22 +124,6 @@ A total of **39 engineered features** were created, including:
 * Multi-Layer Perceptron (MLP)
 * Naive Lag-1 Forecast
 
----
-
-## 🔧 Training Configuration
-
-| Parameter         | Value             |
-| ----------------- | ----------------- |
-| Optimizer         | AdamW             |
-| Learning Rate     | 3e-4              |
-| Weight Decay      | 1e-4              |
-| Scheduler         | CosineAnnealingLR |
-| Loss Function     | Huber Loss        |
-| Epochs            | 120               |
-| Early Stopping    | Patience = 15     |
-| Batch Size        | 128               |
-| Sequence Length   | 14                |
-| Gradient Clipping | 0.5               |
 
 ---
 
@@ -166,8 +145,6 @@ A total of **39 engineered features** were created, including:
 | LSTM  | 8.42  | 9.52%  | 0.8942  |
 | MLP   | 13.44 | 14.38% | 0.7210  |
 | Naive | 17.57 | 40.04% | -0.1263 |
-
-✅ All project performance targets were achieved.
 
 ---
 
@@ -256,13 +233,6 @@ Projected improvements achieved through demand forecasting:
 * Real-Time Streaming Forecast Pipeline
 
 ---
-
-## 👩‍💻 Author
-
-**Mirudhula Dhanaraj**
-
-B.Tech Artificial Intelligence & Data Science
-
 
 
 Built using PyTorch and Streamlit for production-oriented inventory demand forecasting.

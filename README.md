@@ -47,7 +47,7 @@ NeuralStock addresses these challenges using deep learning-based time series for
 
 **E-Commerce Inventory Demand Dataset**
 
-* 6,223 transaction records
+* 60,223 transaction records
 * 50 SKUs
 * 5 product categories:
 
